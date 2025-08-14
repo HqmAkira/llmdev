@@ -1,0 +1,16 @@
+.header {
+    background-color: #84ceef;
+    color: #fff;
+}
+
+.main {
+    h1 {
+        color: #e47292;
+        text-align: center;
+    };
+}
+
+.footer {
+    background-color: #040000;
+    color: #fff;
+}
