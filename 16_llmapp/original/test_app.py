@@ -1,7 +1,7 @@
 import pytest
 from flask import session
-from chatbot.app import app
-from chatbot.graph import memory, get_messages_list
+from original.app import app
+from original.graph import memory, get_messages_list
 
 USER_MESSAGE_1 = "1たす2は？"
 USER_MESSAGE_2 = "東京駅のイベントの検索結果を教えて"
@@ -82,3 +82,11 @@ def test_clear_endpoint(client):
     # メモリがクリアされているか確認
     cleared_messages = memory.get({"configurable": {"thread_id": thread_id}})
     assert cleared_messages is None, "メモリは/clearエンドポイント後にクリアされるべきです。"
+
+
+def test_character_change(client):
+    """
+    キャラクター変更のフォームが正しく機能するかをテスト。
+    """
+    response = client.post('/', data={'character_message': '新しいキャラクター'})
+    assert response.status_code == 200, "キャラクター変更リクエストに対してステータスコード200を返すべきです。"

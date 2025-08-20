@@ -16,6 +16,14 @@
     </div>
 </form>
 
+<form method="POST" action="/" id="character-form">
+    <div class="character-box">
+        <a>{% if current_character %}現在のキャラクター: {{ current_character }}{% endif %}</a>
+        <textarea name="character_message" id="character-input" placeholder="キャラクターを入力..." required autofocus></textarea>
+        <button type="submit" class="character-button">キャラクター変更</button>
+    </div>
+</form>
+
 <form method="POST" action="/clear">
     <button type="submit" class="clear-button">履歴を消去</button>
 </form>

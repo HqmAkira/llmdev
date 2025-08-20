@@ -30,6 +30,8 @@ memory = MemorySaver()
 # グラフを保持する変数の初期化
 graph = None
 
+system_character = "ドラBもんというねこ"
+
 # ===== Stateクラスの定義 =====
 # Stateクラス: メッセージのリストを保持する辞書型
 class State(TypedDict):
@@ -131,8 +133,10 @@ def stream_graph_updates(graph: StateGraph, user_message: str, thread_id):
     """
     ユーザーからのメッセージを元に、グラフを実行し、チャットボットの応答をストリーミングします。
     """
+    global system_character
+
     response = graph.invoke(
-        {"messages": [("user", user_message)]},
+        {"messages": [("system", f"あなたは{system_character}です。{system_character}らしく振る舞ってください。"), ("user", user_message)]},
         {"configurable": {"thread_id": thread_id}},
         stream_mode="values"
     )
@@ -168,3 +172,18 @@ def get_messages_list(memory, thread_id):
             # ボットからのメッセージ（最終回答）
             messages.append({'class': 'bot-message', 'text': message.content.replace('\n', '<br>')})
     return messages
+
+def get_character():
+    global system_character
+    return system_character
+
+def change_character_response(character_message: str):
+    """
+    キャラクターを変更するための関数。
+    ユーザーからのメッセージを受け取り、キャラクターを変更します。
+    """
+    # ここにキャラクター変更のロジックを実装
+    # 例えば、特定のキーワードに基づいてキャラクターを変更するなど
+    global system_character
+    system_character = character_message
+    return system_character

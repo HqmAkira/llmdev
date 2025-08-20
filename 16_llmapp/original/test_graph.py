@@ -1,8 +1,10 @@
 import pytest
 from langchain_openai import OpenAIEmbeddings
-from chatbot.graph import (
+from original.graph import (
     get_bot_response,
     get_messages_list,
+    get_character,
+    change_character_response,
     memory,
     build_graph,
     define_tools,
@@ -112,6 +114,17 @@ def test_get_messages_list(setup_memory):
     assert any(isinstance(msg, dict) for msg in messages), "メッセージリストは辞書のリストである必要があります。"
     assert any(msg['class'] == 'user-message' for msg in messages), "メッセージリストにユーザーのメッセージが含まれている必要があります。"
     assert any(msg['class'] == 'bot-message' for msg in messages), "メッセージリストにボットの応答が含まれている必要があります。"
+
+def test_get_character():
+    result = get_character()
+    assert result == "ドラBもんというねこ", "デフォルトのキャラクターが正しく取得されるべきです。"
+
+def test_change_character_response():
+    new_character = "ドラCもんといういぬ"
+    result = change_character_response(new_character)
+    assert result == new_character, "キャラクター変更の応答が正しく返されるべきです。"
+    assert get_character() == new_character, "キャラクターが正しく変更されているべきです。"
+
 
 # 実行用
 if __name__ == "__main__":
